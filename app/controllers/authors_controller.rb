@@ -29,9 +29,24 @@ class AuthorsController < ApplicationController
     end
   end
 
+  # PUT /authors/{id}
+  # Actualiza la información de los actores.
+  def update
+    @author = Author.find(params[:id])
+    if @author.update!(update_params)
+      render json: @author, status: :ok
+    else
+      render json: {error: 'Not update'}, status: :error
+    end
+  end
+
   private
   
   def create_params
+    params.require(:author).permit(:name, :last_name, :age)
+  end
+
+  def update_params
     params.require(:author).permit(:name, :last_name, :age)
   end
 end

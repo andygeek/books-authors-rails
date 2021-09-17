@@ -29,9 +29,25 @@ class BooksController < ApplicationController
     end
   end
 
+  # PUT /books/{id}
+  # Actualiza la información de los libros
+  def update
+    @book = Book.find(params[:id])
+    if @book.update(update_params)
+      render json: @book, status: :ok
+    else
+      render json: {error: 'Not update'}, status: :error
+    end
+  end
+
   private
 
   def create_params
     params.require(:book).permit(:title, :year, :author_id, :genre_id)
   end
+
+  def update_params
+    params.require(:book).permit(:title, :year, :author_id, :genre_id)
+  end
+
 end

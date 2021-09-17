@@ -29,9 +29,25 @@ class GenresController < ApplicationController
     end
   end
 
+  # PUT /genres/{id}
+  # Actualiza la informacion de un género
+  def update
+    @genre = Genre.find(params[:id])
+    if @genre.update!(update_params)
+      render json: @genre, status: :ok
+    else
+      render json: {error: 'Not update'}, status: :error
+    end
+  end
+
   private
 
   def create_params
     params.require(:genre).permit(:name)
   end
+
+  def update_params
+    params.require(:genre).permit(:name)
+  end
+
 end
