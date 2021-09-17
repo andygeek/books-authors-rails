@@ -17,4 +17,21 @@ class AuthorsController < ApplicationController
       render json: {error: 'Not found'}, status: :not_found
     end
   end
+
+  # POST /authors
+  # Crea un nuevo autor
+  def create
+    @author = Author.create(create_params)
+    if @author.present?
+      render json: @author, status: :ok
+    else
+      render json: {error: 'Not create'}, status: :error
+    end
+  end
+
+  private
+  
+  def create_params
+    params.require(:author).permit(:name, :last_name, :age)
+  end
 end
